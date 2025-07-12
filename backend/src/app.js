@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 // import { userRouter } from "./routes/users.route.js";
 import { ApiError } from "./utils/ApiError.js";
 import swapRouter from "./routes/swap.routes.js";
+import { userRouter } from "./routes/users.route.js";
 const app = express()
 
 app.use(cors({
@@ -25,6 +26,7 @@ app.use(express.static("public")) // to stor assets in public like img
 
 app.use("/api/auth", authRouter)
 app.use("/api/swap", swapRouter)
+app.use("/api/chats",userRouter)
 
 // Catch-all 404 handler (use your ApiError)
 app.use((req, res, next) => {

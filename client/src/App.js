@@ -11,14 +11,14 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  if(loading) return ProtectedRoute(children)
-  return user ? children : <Navigate to="/login" replace />;
+  if(loading) return <div>Loading....</div>
+  return user ? children : <Navigate to="/dashboard" replace />;
 };
 
 // Public Route Component (redirects to dashboard if already logged in)
 const PublicRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  if(loading) return ProtectedRoute(children)
+  if(loading) return <div>Loading....</div>
   return user ? <Navigate to="/dashboard" replace /> : children;
 };
 

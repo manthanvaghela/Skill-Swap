@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
   const checkAuthStatus = async () => {
+    setLoading(true)
     try {
       const response = await axiosInstance.get('/auth/checkAuth');
       setUser(response.data.user);
@@ -73,7 +74,7 @@ export const AuthProvider = ({ children }) => {
       return { success: false, error: message };
     }
   };
-  
+
   const logout = () => {
     localStorage.removeItem('token');
     delete axiosInstance.defaults.headers.common['Authorization'];
