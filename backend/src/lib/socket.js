@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
                 io.emit("getOnlineUsers", Object.keys(useSocketMap));
                 console.log("User removed after delay:", userId);
             }
-        }, process.env.PORT || 3000); // 3 seconds delay
+        }, process.env.PORT || 5000); // 3 seconds delay
     })
 })
 

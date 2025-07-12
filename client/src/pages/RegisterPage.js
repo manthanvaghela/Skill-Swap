@@ -22,7 +22,7 @@ const RegisterPage = () => {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    
+
     try {
       const result = await registerUser(data);
       if (result.success) {
@@ -54,9 +54,9 @@ const RegisterPage = () => {
         {/* Registration Form */}
         <div className="card animate-fade-in">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Name Field */}
+            {/* Full Name Field */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
                 Full Name
               </label>
               <div className="relative">
@@ -64,26 +64,58 @@ const RegisterPage = () => {
                   <User className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
-                  id="name"
+                  id="fullName"
                   type="text"
                   autoComplete="name"
-                  className={`input-field pl-10 ${errors.name ? 'border-red-300 focus:ring-red-500' : ''}`}
+                  className={`input-field pl-10 ${errors.fullName ? 'border-red-300 focus:ring-red-500' : ''}`}
                   placeholder="Enter your full name"
-                  {...register('name', {
-                    required: 'Name is required',
+                  {...register('fullName', {
+                    required: 'Full name is required',
                     minLength: {
                       value: 2,
-                      message: 'Name must be at least 2 characters',
+                      message: 'Full name must be at least 2 characters',
                     },
                   })}
                 />
               </div>
-              {errors.name && (
+              {errors.fullname && (
                 <p className="mt-1 text-sm text-red-600 animate-slide-up">
-                  {errors.name.message}
+                  {errors.fullname.message}
                 </p>
               )}
             </div>
+
+            {/* Username Field */}
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
+                Username
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  id="username"
+                  type="text"
+                  autoComplete="username"
+                  className={`input-field pl-10 ${errors.username ? 'border-red-300 focus:ring-red-500' : ''}`}
+                  placeholder="Enter your username"
+                  {...register('username', {
+                    required: 'Username is required',
+                    minLength: {
+                      value: 2,
+                      message: 'Username must be at least 2 characters',
+                    },
+                  })}
+                />
+              </div>
+              {errors.username && (
+                <p className="mt-1 text-sm text-red-600 animate-slide-up">
+                  {errors.username.message}
+                </p>
+              )}
+            </div>
+
 
             {/* Email Field */}
             <div>

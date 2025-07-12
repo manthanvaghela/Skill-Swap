@@ -10,13 +10,15 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if(loading) return ProtectedRoute(children)
   return user ? children : <Navigate to="/login" replace />;
 };
 
 // Public Route Component (redirects to dashboard if already logged in)
 const PublicRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if(loading) return ProtectedRoute(children)
   return user ? <Navigate to="/dashboard" replace /> : children;
 };
 

@@ -22,6 +22,7 @@ const LoginPage = () => {
     setIsLoading(false);
     
     if (result.success) {
+      console.log("rsult in LoginPage: ", result)
       navigate('/dashboard');
     }
   };

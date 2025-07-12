@@ -1,10 +1,9 @@
 import express from 'express'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 import { asyncHandler } from '../utils/asyncHandler.util.js'
 import User from '../models/User.model.js'
 import { ApiError } from '../utils/ApiError.js'
-import {ApiResponse} from '../utils/ApiResponse.js'
+import { ApiResponse } from '../utils/ApiResponse.js'
 
 // Generate Access and Refresh Tokens
 const generateAccessRefreshToken = async (userId) => {
@@ -23,7 +22,9 @@ const generateAccessRefreshToken = async (userId) => {
 
 // Enhanced Signup
 const userSignup = asyncHandler(async (req, res) => {
-  const { email, username, fullName, password } = req.body
+  console.log("req.body in userSignup :", req.body)
+
+  const { email, username, fullName, password , location} = req.body
 
   if (!email || !username || !fullName || !password) {
     throw new ApiError(400, 'All fields are required')
@@ -46,6 +47,7 @@ const userSignup = asyncHandler(async (req, res) => {
     username,
     fullName,
     password: hashedPassword,
+    location,
     isVerified: true // no email verification, mark as verified
   })
 
@@ -58,16 +60,19 @@ const userLogin = asyncHandler(async (req, res) => {
   const { email, username, password } = req.body
 
   if (!(email || username) || !password) {
+    console.log('Email or username and password are required')
     throw new ApiError(400, 'Email or username and password are required')
   }
 
   const user = await User.findOne({ $or: [{ email }, { username }] })
   if (!user) {
+    console.log('Invalid credentials')
     throw new ApiError(400, 'Invalid credentials')
   }
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password)
   if (!isPasswordCorrect) {
+    console.log('Wrong password')
     throw new ApiError(400, 'Wrong password')
   }
 
@@ -90,7 +95,19 @@ const userLogin = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, loggedInUser, 'Login successful'))
 })
 
+const checkAuth = asyncHandler(async (req, res) => {
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        req.user
+      )
+    )
+})
+
 export {
   userSignup,
-  userLogin
+  userLogin,
+  checkAuth
 }
